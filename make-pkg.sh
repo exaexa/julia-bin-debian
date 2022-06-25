@@ -1,25 +1,5 @@
 #!/bin/bash
 
-# This needs a debian with some tools, such as debhelper and devscripts.
-#
-# Packages are created in this directory. Clean the directory before building
-# the same version again, otherwise weird stuff happens.
-#
-# Input environment (+ example):
-# VERSION (1.6.3)
-# JULIA_ARCH (x86_64)
-# JULIA_ARCH_DIR (x64)
-# DEB_ARCH (amd64)
-#
-# Derived automatically that can be overridden automatically
-# VERSION_BRANCH (1.6)
-# DEB_VERSION (1.8.0rc1)
-#
-# e.g.
-# VERSION=1.7.3 DEB_ARCH=amd64 JULIA_ARCH=x86_64 JULIA_ARCH_DIR=x64 ./make-pkg.sh
-#
-# Again, do not forget to remove tempfiles before each build.
-
 VERSION_BRANCH=${VERSION_BRANCH-$(echo $VERSION | cut -d. -f1-2)}
 DEB_VERSION=${DEB_VERSION-$(echo $VERSION | tr -d -)}
 
@@ -135,10 +115,10 @@ source:
 	tar xzf julia-${VERSION}-linux-${JULIA_ARCH}.tar.gz
 
 install:
-	mkdir -p \$(DESTDIR)/libexec
-	cp -a julia-${VERSION} \$(DESTDIR)/libexec
-	mkdir -p \$(DESTDIR)/bin
-	ln -sf /libexec/julia-${VERSION}/bin/julia \$(DESTDIR)/bin/julia-${VERSION}
+	mkdir -p \$(DESTDIR)/opt
+	cp -a julia-${VERSION} \$(DESTDIR)/opt
+	mkdir -p \$(DESTDIR)/usr/bin
+	ln -sf /opt/julia-${VERSION}/bin/julia \$(DESTDIR)/usr/bin/julia-${VERSION}
 EOF
 
 dpkg-buildpackage -us -uc
